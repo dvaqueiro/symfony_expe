@@ -6,7 +6,12 @@ class ImageUrl
 {
     private $url;
 
-    public function __construct(string $url)
+    public static function fromString(string $url)
+    {
+        return new self($url);
+    }
+
+    private function __construct(string $url)
     {
         $this->setUrl($url);
     }
