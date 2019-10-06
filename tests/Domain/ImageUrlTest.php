@@ -25,4 +25,10 @@ class ImageUrlTest extends TestCase
         $this->expectException(InvalidImageUrlException::class);
         ImageUrl::fromString("http://domain.com");
     }
+
+    public function testCreateWithoutProtocol()
+    {
+        $imageUrl = ImageUrl::fromString("domain.com/path/image");
+        $this->assertInstanceOf(ImageUrl::class, $imageUrl);
+    }
 }

@@ -18,7 +18,7 @@ class ImageUrl
 
     private function setUrl($url)
     {
-        $parseResult = parse_url($url);
+        $parseResult = $this->parseUrl($url);
         if (!isset($parseResult['host'])) {
             throw new InvalidImageUrlException();
         }
@@ -28,5 +28,14 @@ class ImageUrl
         }
 
         $this->url = $url;
+    }
+
+    private function parseUrl($url)
+    {
+        if (strpos($url, 'http') === false) {
+            $url = "http://{$url}";
+        }
+
+        return parse_url($url);
     }
 }
