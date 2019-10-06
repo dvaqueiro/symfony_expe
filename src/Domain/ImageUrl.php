@@ -18,11 +18,10 @@ class ImageUrl
 
     private function setUrl($url)
     {
-        if (empty($url)) {
+        $parseResult = parse_url($url);
+        if (!isset($parseResult['host'])) {
             throw new InvalidImageUrlException();
         }
-
-        $parseResult = parse_url($url);
 
         if (!isset($parseResult['path']) && !isset($parseResult['query'])) {
             throw new InvalidImageUrlException();
