@@ -19,4 +19,10 @@ class ImageUrlTest extends TestCase
         $this->expectException(InvalidImageUrlException::class);
         ImageUrl::fromString("");
     }
+
+    public function testCreateOnlyDomainThrowException()
+    {
+        $this->expectException(InvalidImageUrlException::class);
+        ImageUrl::fromString("http://domain.com");
+    }
 }

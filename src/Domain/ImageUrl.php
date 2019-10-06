@@ -22,6 +22,12 @@ class ImageUrl
             throw new InvalidImageUrlException();
         }
 
+        $parseResult = parse_url($url);
+
+        if (!isset($parseResult['path']) && !isset($parseResult['query'])) {
+            throw new InvalidImageUrlException();
+        }
+
         $this->url = $url;
     }
 }
