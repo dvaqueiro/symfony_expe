@@ -35,6 +35,10 @@ class ImageUrl
             throw new InvalidImageUrlException();
         }
 
+        if (strpos($parseResult['host'], ".") === false) {
+            throw new InvalidImageUrlException();
+        }
+
         $this->url = $url;
     }
 

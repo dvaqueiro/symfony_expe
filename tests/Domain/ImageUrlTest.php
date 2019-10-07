@@ -37,4 +37,10 @@ class ImageUrlTest extends TestCase
         $this->expectException(InvalidImageUrlException::class);
         ImageUrl::fromString("ftp://domain.com/path");
     }
+
+    public function testCreateRelativePathThrowException()
+    {
+        $this->expectException(InvalidImageUrlException::class);
+        ImageUrl::fromString("path/image.jpg");
+    }
 }
