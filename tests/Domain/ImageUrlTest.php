@@ -31,4 +31,10 @@ class ImageUrlTest extends TestCase
         $imageUrl = ImageUrl::fromString("domain.com/path/image");
         $this->assertInstanceOf(ImageUrl::class, $imageUrl);
     }
+
+    public function testCreateInvalidProtocolThrowException()
+    {
+        $this->expectException(InvalidImageUrlException::class);
+        ImageUrl::fromString("ftp://domain.com/path");
+    }
 }

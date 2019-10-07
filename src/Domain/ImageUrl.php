@@ -23,6 +23,14 @@ class ImageUrl
             throw new InvalidImageUrlException();
         }
 
+        if (!isset($parseResult['scheme'])) {
+            throw new InvalidImageUrlException();
+        }
+
+        if (!in_array($parseResult['scheme'], ['http', 'https'])) {
+            throw new InvalidImageUrlException();
+        }
+
         if (!isset($parseResult['path']) && !isset($parseResult['query'])) {
             throw new InvalidImageUrlException();
         }
@@ -32,7 +40,7 @@ class ImageUrl
 
     private function parseUrl($url)
     {
-        if (strpos($url, 'http') === false) {
+        if (!preg_match("@\w+://@", $url)) {
             $url = "http://{$url}";
         }
 
