@@ -19,25 +19,11 @@ class ImageUrl
     private function setUrl($url)
     {
         $parseResult = $this->parseUrl($url);
-        if (!isset($parseResult['host'])) {
-            throw new InvalidImageUrlException();
-        }
-
-        if (!isset($parseResult['scheme'])) {
-            throw new InvalidImageUrlException();
-        }
-
-        if (!in_array($parseResult['scheme'], ['http', 'https'])) {
-            throw new InvalidImageUrlException();
-        }
-
-        if (!isset($parseResult['path']) && !isset($parseResult['query'])) {
-            throw new InvalidImageUrlException();
-        }
-
-        if (strpos($parseResult['host'], ".") === false) {
-            throw new InvalidImageUrlException();
-        }
+        $this->checkHostExist($parseResult);
+        $this->checkSchemeExist($parseResult);
+        $this->checkAllowedScheme($parseResult);
+        $this->checkQueryOrPathExist($parseResult);
+        $this->checkHostHasDot($parseResult);
 
         $this->url = $url;
     }
@@ -49,5 +35,40 @@ class ImageUrl
         }
 
         return parse_url($url);
+    }
+
+    private function checkHostExist($parseResult)
+    {
+        if (!isset($parseResult['host'])) {
+            throw new InvalidImageUrlException("Host is required");
+        }
+    }
+
+    private function checkSchemeExist($parseResult)
+    {
+        if (!isset($parseResult['scheme'])) {
+            throw new InvalidImageUrlException("Schema is required");
+        }
+    }
+
+    private function checkAllowedScheme($parseResult)
+    {
+        if (!in_array($parseResult['scheme'], ['http', 'https'])) {
+            throw new InvalidImageUrlException("Scheme is not allowed");
+        }
+    }
+
+    private function checkQueryOrPathExist($parseResult)
+    {
+        if (!isset($parseResult['path']) && !isset($parseResult['query'])) {
+            throw new InvalidImageUrlException("Path or query is required");
+        }
+    }
+
+    private function checkHostHasDot($parseResult)
+    {
+        if (strpos($parseResult['host'], ".") === false) {
+            throw new InvalidImageUrlException("Host not has dot");
+        }
     }
 }
